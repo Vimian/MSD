@@ -1,9 +1,7 @@
 import Index from "./screen/Index";
 
 const App = () => {
-  return (
-    <Index />
-  );
+  return <Index />;
 };
 
 export default App;

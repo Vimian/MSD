@@ -1,5 +1,4 @@
-import { Text, View } from 'react-native';
-import { FlatList } from 'react-native-web';
+import { FlatList, SafeAreaView, Text, View } from 'react-native';
 
 const items = [
   {
@@ -14,6 +13,10 @@ const items = [
 ];
 
 const My = () => {
+  const renderItem = ({item}) => (
+    <Item name={item.name} />
+  );
+  
   return (
     <View>
       <FlatList
@@ -24,9 +27,6 @@ const My = () => {
   );
 };
 
-const renderItem = ({item}) => (
-  <Item name={item.name} />
-);
 
 const Item = ({ name }) => (
   <View>

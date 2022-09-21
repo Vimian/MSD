@@ -5,24 +5,22 @@ const Upcoming = ({navigation}) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    console.log("helloooo");
     fetchPopularMovies();
   }, []);
 
   function fetchPopularMovies() {
-    console.log(process.env.API_KEY)
-    fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.API_KEY}&language=en-US&page=1`)
+    fetch(`${process.env.API_URL}movie/upcoming?api_key=${process.env.API_KEY}&language=en-US&page=1`)
       .catch((err) => (
         console.error(err)
       ))
       .then((res) => res.json())
-      .then((res) => setData(res.results));
+      .then((res) => setData(res));
   };
 
   return (
     <View>
       <FlatList
-        data={data}
+        data={data.results}
         renderItem={renderItem}
       />
     </View>

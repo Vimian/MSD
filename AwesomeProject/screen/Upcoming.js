@@ -1,23 +1,45 @@
 import { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet } from "react-native";
 import MovieEmbed from "../component/MovieEmbed";
+
+const updateListData = (event, pageCounter, setPageCounter, data, setData) => {
+        if (
+                event.nativeEvent.contentSize.height -
+                        event.nativeEvent.layoutMeasurement.height -
+                        event.nativeEvent.contentOffset.y <=
+                        700 &&
+                pageCounter <= data.total_pages
+        ) {
+                console.log(data);
+                fetchPopularMovies(pageCounter, setPageCounter, data, setData);
+        }
+};
+
+function fetchPopularMovies(pageCounter, setPageCounter, data, setData) {
+        console.info(`Fetching upcoming movies, from page ${pageCounter}`);
+        fetch(
+                `${process.env.API_URL}movie/upcoming?api_key=${process.env.API_KEY}&language=en-US&page=${pageCounter}`
+        )
+                .catch((err) => console.error(err))
+                .then((res) => res.json())
+                .then((res) => {
+                        if (data.results && data.results.length > 0) {
+                                res.results = data.results.concat(res.results);
+                        }
+                        return res;
+                })
+                .then((res) => setData(res));
+
+        setPageCounter(pageCounter + 1);
+}
 
 const Upcoming = ({ navigation }) => {
         const [data, setData] = useState([]);
+        const [pageCounter, setPageCounter] = useState(1);
 
         useEffect(() => {
-                fetchPopularMovies();
+                fetchPopularMovies(pageCounter, setPageCounter, data, setData);
         }, []);
-
-        function fetchPopularMovies() {
-                console.info("Fetching upcoming movies");
-                fetch(
-                        `${process.env.API_URL}movie/upcoming?api_key=${process.env.API_KEY}&language=en-US&page=1`
-                )
-                        .catch((err) => console.error(err))
-                        .then((res) => res.json())
-                        .then((res) => setData(res));
-        }
 
         const renderItem = ({ item }) => (
                 <MovieEmbed
@@ -31,7 +53,18 @@ const Upcoming = ({ navigation }) => {
         );
 
         return (
-                <View>
+                <ScrollView
+                        onScroll={(event) =>
+                                updateListData(
+                                        event,
+                                        pageCounter,
+                                        setPageCounter,
+                                        data,
+                                        setData
+                                )
+                        }
+                        scrollEventThrottle={1000}
+                >
                         <FlatList
                                 data={data.results}
                                 renderItem={renderItem}
@@ -39,7 +72,7 @@ const Upcoming = ({ navigation }) => {
                                 horizontal={true}
                                 contentContainerStyle={styles.list}
                         />
-                </View>
+                </ScrollView>
         );
 };
 

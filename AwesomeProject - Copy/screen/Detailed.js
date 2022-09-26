@@ -36,25 +36,36 @@ const Detailed = ({ route }) => {
                         <Text style={styles.title}>{data.title}</Text>
 
                         <View style={{ flexDirection: "row" }}>
-                                <View style={{ flex: 2 }}>
+                                <View style={{ flex: 2, margin: 5 }}>
                                         <Text style={styles.text}>
                                                 <Text>
                                                         Rating:{" "}
-                                                        {Math.floor(
-                                                                data.vote_average *
-                                                                        10
-                                                        ) / 10}{" "}
-                                                        , length {data.runtime}{" "}
-                                                        min.
+                                                        <Text
+                                                                style={
+                                                                        styles.rating
+                                                                }
+                                                        >
+                                                                {Math.floor(
+                                                                        data.vote_average *
+                                                                                10
+                                                                ) / 10}
+                                                        </Text>{" "}
+                                                        , Playtime:{" "}
+                                                        {data.runtime} min.
                                                 </Text>
                                         </Text>
 
-                                        <Text style={styles.text}>
+                                        <Text
+                                                style={[
+                                                        styles.text,
+                                                        { marginTop: 10 },
+                                                ]}
+                                        >
                                                 {data.overview}
                                         </Text>
                                 </View>
 
-                                <View style={{ flex: 1 }}>
+                                <View style={{ flex: 1, margin: 5 }}>
                                         <Text>
                                                 <Text style={styles.subTitle}>
                                                         Genres:{" "}
@@ -108,14 +119,20 @@ const styles = StyleSheet.create({
                 aspectRatio: 2 / 1,
         },
         title: {
+                fontSize: 42,
                 color: "white",
                 textAlign: "center",
         },
         text: {
+                fontSize: 18,
                 color: "white",
         },
         subTitle: {
+                fontSize: 18,
                 color: "grey",
+        },
+        rating: {
+                color: "green",
         },
 });
 

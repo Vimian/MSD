@@ -17,7 +17,7 @@ function TodoList() {
 
   return (
     <div className="col-sm-4">
-      <h1 className="text-center">Header</h1>
+      <h1 className="text-center">Things Todo</h1>
       <TodoForm addTodo={addTodo} />
       <Todo todos={todos} removeTodo={removeTodo} />
     </div>

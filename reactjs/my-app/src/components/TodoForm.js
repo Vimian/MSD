@@ -35,16 +35,3 @@ function TodoForm({ addTodo }) {
 }
 
 export default TodoForm;
-
-/*
-<form className="todoForm" onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Put todo here..."
-        value={input}
-        className="todoFormInput"
-        onChange={handleChange}
-      />
-      <button className="todoFormButton">Add</button>
-    </form>
-    */
